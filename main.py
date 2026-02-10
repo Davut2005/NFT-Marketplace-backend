@@ -1,5 +1,4 @@
-from fastapi import FastAPI
-from api_routers import users, collections, nfts, listings, sales, payments, activity_logs
+from api_routers import users, collections, nfts, listings, sales, payments, activity_logs, analytics, ownership_history
 
 app = FastAPI()
 
@@ -10,6 +9,8 @@ app.include_router(listings.router)
 app.include_router(sales.router)
 app.include_router(payments.router)
 app.include_router(activity_logs.router)
+app.include_router(analytics.router)
+app.include_router(ownership_history.router)
 
 @app.get("/")
 def read_root():

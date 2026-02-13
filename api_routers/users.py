@@ -10,7 +10,6 @@ router = APIRouter(
 
 @router.get("/")
 async def get_users(sort_by: str = "id", order: str = "asc", db: AsyncSession = Depends(get_db)):
-    # Prevent SQL Injection by validating sort_by
     valid_sort_columns = ["id", "username", "email", "created_at"]
     if sort_by not in valid_sort_columns:
         sort_by = "id"
@@ -58,7 +57,6 @@ async def update_user(user_id: int, user: dict, db: AsyncSession = Depends(get_d
 
 @router.delete("/{user_id}")
 async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)):
-    # This demonstrates On Delete Cascade if user has collections
     query = text("DELETE FROM users WHERE id = :user_id RETURNING id")
     result = await db.execute(query, {"user_id": user_id})
     await db.commit()

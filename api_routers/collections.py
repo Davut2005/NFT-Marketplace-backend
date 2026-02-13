@@ -9,8 +9,14 @@ router = APIRouter(
 )
 
 @router.get("/")
-async def get_collections(db: AsyncSession = Depends(get_db)):
-    query = text("SELECT * FROM collections")
+async def get_collections(sort_by: str = "id", order: str = "asc", db: AsyncSession = Depends(get_db)):
+    valid_sort_columns = ["id", "name", "created_at"]
+    if sort_by not in valid_sort_columns:
+        sort_by = "id"
+    if order not in ["asc", "desc"]:
+        order = "asc"
+        
+    query = text(f"SELECT * FROM collections ORDER BY {sort_by} {order}")
     result = await db.execute(query)
     return [dict(row._mapping) for row in result]
 

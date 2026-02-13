@@ -1,13 +1,9 @@
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import text
-import os
-from dotenv import load_dotenv
+from core.config import settings
 
-load_dotenv()
-
-# Default to a standard local postgres url if not set
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:password@localhost/nft_marketplace")
+DATABASE_URL = settings.DATABASE_URL
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 
